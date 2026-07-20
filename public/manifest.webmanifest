@@ -1,0 +1,12 @@
+{
+  "name": "Project Phoenix",
+  "short_name": "Phoenix",
+  "description": "A gentle, knee-aware home workout and progress tracker.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fffaf7",
+  "theme_color": "#5b2e48",
+  "icons": [
+    { "src": "./icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
