@@ -1,37 +1,196 @@
+<div align="center">
+
 # Project Phoenix
 
-A mobile-first, knee-aware home workout tracker that runs directly on GitHub Pages.
+### Rebuilding strength, one intentional step at a time.
 
-## Why this version works
+*A mobile-first wellness companion focused on movement, confidence, and sustainable progress.*
 
-This release is a standalone HTML application. It does not require React, Vite, Node.js, or a build step. GitHub Pages can serve `index.html` directly.
+![Status](https://img.shields.io/badge/status-in%20development-orange)
+![Version](https://img.shields.io/badge/version-0.1-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-## Replace the blank version
+</div>
 
-Copy `index.html` and `README.md` into your existing `project-phoenix` folder, replacing the old files. Then run:
+---
 
-```bash
-git add .
-git commit -m "Fix blank app and add working tracker"
-git push
-```
+## The Story
 
-## Turn on GitHub Pages
+Project Phoenix began as a personal challenge.
 
-1. Open the repository on GitHub.
-2. Go to **Settings → Pages**.
-3. Under **Build and deployment**, choose **Deploy from a branch**.
-4. Choose branch **main** and folder **/(root)**.
-5. Save.
+After losing more than **90 pounds**, I realized the hardest part wasn't losing weight.
 
-The site should appear at:
+It was learning how to rebuild.
 
-`https://YOUR-USERNAME.github.io/project-phoenix/`
+Rebuilding confidence.
+Rebuilding strength.
+Rebuilding consistency.
+Rebuilding the relationship with my own body.
 
-## Data and privacy
+Most fitness apps celebrate perfection.
 
-Workout and measurement data are saved in the current browser using local storage. Use the Export Data button to create backups.
+Project Phoenix celebrates showing up.
 
-## Medical note
+---
 
-This app is a personal tracking tool, not medical advice or a diagnosis. Persistent knee pain, swelling, locking, instability, worsening symptoms, or restricted movement should be evaluated by a qualified healthcare professional.
+# Philosophy
+
+Project Phoenix is built around one guiding principle:
+
+> **Never miss two movement days in a row.**
+
+Some days you'll lift weights.
+
+Some days you'll stretch.
+
+Some days simply walking around the block is enough.
+
+Every movement counts.
+
+---
+
+# Mission
+
+To create a wellness companion that helps people:
+
+- Move more
+- Hurt less
+- Build strength
+- Improve mobility
+- Gain confidence
+- Celebrate progress beyond the scale
+
+---
+
+# Features
+
+## Current
+
+- Daily guided workouts
+- Beginner-friendly programming
+- Green / Blue workout modes
+- Knee-friendly exercise modifications
+- Guided stretching routines
+- Local progress tracking
+- Mobile-first design
+
+---
+
+## Coming Soon
+
+### Movement
+
+- Exercise timers
+- Exercise library
+- Weekly progression
+- Resistance band routines
+- Gym mode
+
+### Progress
+
+- Measurements
+- Progress photos
+- Interactive charts
+- Personal records
+- Streak tracking
+
+### Wellness
+
+- Habit tracking
+- Meal planning
+- Walking goals
+- Sleep tracking
+- Water tracking
+
+### Motivation
+
+- Achievements
+- Monthly challenges
+- Boss Battles
+- Non-scale victories
+
+---
+
+# Tech Stack
+
+### Current
+
+- HTML
+- CSS
+- JavaScript
+- GitHub Pages
+
+### Planned
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Progressive Web App (PWA)
+- Local Storage
+
+---
+
+# Roadmap
+
+| Version | Goal |
+|---------|------|
+| 0.1 | Foundation |
+| 0.2 | Workout Engine |
+| 0.3 | Measurements |
+| 0.4 | Progress Dashboard |
+| 0.5 | Exercise Library |
+| 0.6 | Achievements |
+| 1.0 | Complete Personal Wellness Companion |
+
+---
+
+# Core Values
+
+Project Phoenix is designed around:
+
+- Sustainability over intensity
+- Consistency over perfection
+- Progress over comparison
+- Confidence over appearance
+- Health over punishment
+
+---
+
+# Success Isn't Just Weight
+
+Success also looks like...
+
+- Walking upstairs without pain
+- Feeling stronger
+- Sleeping better
+- Better posture
+- More energy
+- Completing today's workout
+- Feeling confident enough to take a progress picture
+
+---
+
+# Contributing
+
+Project Phoenix is currently a personal passion project.
+
+Ideas, suggestions, accessibility improvements, and wellness discussions are always welcome.
+
+---
+
+# License
+
+Released under the MIT License.
+
+---
+
+<div align="center">
+
+## Rise. Recover. Repeat.
+
+*"The goal isn't to become perfect.*
+
+*The goal is to become someone who keeps showing up."*
+
+</div>
