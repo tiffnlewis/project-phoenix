@@ -1,57 +1,36 @@
 # Project Phoenix
 
-A mobile-first, knee-aware home workout tracker built with React, TypeScript, and Vite.
+A mobile-first, knee-aware home workout tracker that runs directly on GitHub Pages.
 
-## Included
+## Why this version works
 
-- Green and Blue workout modes
-- Standing-first, floor-last exercise flow
-- Knee pain and stiffness check-in
-- Four-week progression guide
-- Workout history and progress statistics
-- Waist, lower-belly, arm, and optional weight tracking
-- Local-only data storage
-- JSON export/import backups
-- Installable PWA shell and offline caching
-- Automatic GitHub Pages deployment
+This release is a standalone HTML application. It does not require React, Vite, Node.js, or a build step. GitHub Pages can serve `index.html` directly.
 
-## Run locally
+## Replace the blank version
 
-Install Node.js 22 or later, then:
+Copy `index.html` and `README.md` into your existing `project-phoenix` folder, replacing the old files. Then run:
 
 ```bash
-npm install
-npm run dev
-```
-
-Open the local address shown in the terminal.
-
-## Deploy to GitHub Pages
-
-1. Create a new empty GitHub repository, for example `project-phoenix`.
-2. In this project folder, run:
-
-```bash
-git init
 git add .
-git commit -m "Launch Project Phoenix"
-git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/project-phoenix.git
-git push -u origin main
+git commit -m "Fix blank app and add working tracker"
+git push
 ```
 
-3. In the GitHub repository, open **Settings → Pages**.
-4. Under **Build and deployment**, select **GitHub Actions**.
-5. Open the **Actions** tab and allow the included deployment workflow to finish.
-6. Your site will be available at `https://YOUR-USERNAME.github.io/project-phoenix/`.
+## Turn on GitHub Pages
 
-## Install on your phone
+1. Open the repository on GitHub.
+2. Go to **Settings → Pages**.
+3. Under **Build and deployment**, choose **Deploy from a branch**.
+4. Choose branch **main** and folder **/(root)**.
+5. Save.
 
-Open the deployed site in Safari or Chrome and choose **Add to Home Screen** or **Install app**.
+The site should appear at:
 
-## Privacy
+`https://YOUR-USERNAME.github.io/project-phoenix/`
 
-Workout and measurement information is stored in the browser using local storage. It is not committed to GitHub or sent to a server. Use the app's export feature to make backups.
+## Data and privacy
+
+Workout and measurement data are saved in the current browser using local storage. Use the Export Data button to create backups.
 
 ## Medical note
 

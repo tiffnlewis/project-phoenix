@@ -1,17 +1,362 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#5b2e48" />
-    <meta name="description" content="A gentle, knee-aware home workout and progress tracker." />
-    <link rel="manifest" href="./manifest.webmanifest" />
-    <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.svg" />
-    <title>Project Phoenix</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#6d3b55" />
+  <meta name="description" content="A gentle, knee-aware home workout tracker." />
+  <title>Project Phoenix</title>
+  <style>
+    :root {
+      --bg: #f7f1f4;
+      --card: #fffafd;
+      --text: #2f2630;
+      --muted: #756873;
+      --accent: #6d3b55;
+      --accent-2: #9b6680;
+      --line: #eadce4;
+      --good: #416c59;
+      --warn: #9a642f;
+      --shadow: 0 12px 34px rgba(78, 39, 61, .10);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #fff9fc 0, var(--bg) 42%, #efe5eb 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    .shell { max-width: 720px; margin: 0 auto; padding: 18px 16px 100px; }
+    .hero {
+      background: linear-gradient(135deg, #6d3b55, #9a607e);
+      color: white;
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "✦";
+      position: absolute;
+      right: 18px;
+      top: 8px;
+      font-size: 78px;
+      opacity: .12;
+      transform: rotate(12deg);
+    }
+    h1 { margin: 0 0 6px; font-size: clamp(28px, 7vw, 42px); }
+    h2 { margin: 0; font-size: 21px; }
+    h3 { margin: 0; font-size: 17px; }
+    p { line-height: 1.45; }
+    .subtitle { margin: 0; opacity: .9; }
+    .week-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
+    .hero label { display:block; font-size:12px; text-transform:uppercase; letter-spacing:.08em; opacity:.8; margin-bottom:5px; }
+    .hero select {
+      width:100%; border:0; border-radius:14px; padding:11px 12px; color:var(--text); background:white;
+    }
+    .tabs {
+      position: fixed;
+      left: 50%; bottom: 12px; transform: translateX(-50%);
+      width: min(680px, calc(100% - 24px));
+      display:grid; grid-template-columns:repeat(4,1fr); gap:6px;
+      background: rgba(255,250,253,.94); backdrop-filter: blur(14px);
+      padding:7px; border:1px solid var(--line); border-radius:20px; box-shadow:var(--shadow); z-index:20;
+    }
+    .tab { border:0; background:transparent; padding:10px 6px; border-radius:14px; color:var(--muted); font-size:13px; }
+    .tab.active { background:var(--accent); color:white; }
+    .view { display:none; }
+    .view.active { display:block; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:22px; padding:18px; margin-top:16px; box-shadow:0 7px 22px rgba(78,39,61,.06); }
+    .section-head { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px; }
+    .pill { font-size:12px; padding:6px 10px; border-radius:999px; background:#f0e3ea; color:var(--accent); white-space:nowrap; }
+    .mode-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .mode-btn { padding:14px; border-radius:16px; border:1px solid var(--line); background:white; color:var(--text); text-align:left; }
+    .mode-btn.active { border:2px solid var(--accent); background:#fbf2f7; }
+    .mode-btn strong { display:block; }
+    .mode-btn span { color:var(--muted); font-size:13px; }
+    .checkin { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .field label { display:block; font-size:13px; color:var(--muted); margin-bottom:6px; }
+    input[type="range"] { width:100%; accent-color:var(--accent); }
+    input[type="number"], input[type="text"], textarea, select.plain {
+      width:100%; padding:11px 12px; border:1px solid var(--line); border-radius:13px; background:white; color:var(--text);
+    }
+    textarea { min-height:90px; resize:vertical; }
+    .value { font-weight:700; color:var(--accent); }
+    .notice { margin-top:12px; padding:12px 14px; background:#fff4e8; border:1px solid #efd4b5; border-radius:14px; color:#73481f; font-size:14px; }
+    .exercise { display:grid; grid-template-columns:28px 1fr auto; gap:10px; align-items:start; padding:13px 0; border-bottom:1px solid var(--line); }
+    .exercise:last-child { border-bottom:0; }
+    .exercise input { width:21px; height:21px; accent-color:var(--accent); margin-top:2px; }
+    .exercise.done .ex-name { text-decoration:line-through; color:var(--muted); }
+    .ex-name { font-weight:700; }
+    .ex-note { font-size:13px; color:var(--muted); margin-top:3px; }
+    .amount { font-weight:700; color:var(--accent); font-size:14px; white-space:nowrap; }
+    .divider { display:flex; align-items:center; gap:10px; margin:18px 0 6px; color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.08em; }
+    .divider::before,.divider::after { content:""; height:1px; background:var(--line); flex:1; }
+    .primary { width:100%; border:0; border-radius:16px; padding:14px 18px; background:var(--accent); color:white; font-weight:800; margin-top:14px; }
+    .secondary { border:1px solid var(--line); border-radius:14px; padding:10px 13px; background:white; color:var(--accent); font-weight:700; }
+    .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+    .stat { text-align:center; background:#fbf5f8; border-radius:16px; padding:14px 8px; }
+    .stat strong { display:block; font-size:24px; color:var(--accent); }
+    .history-item { padding:12px 0; border-bottom:1px solid var(--line); }
+    .history-item:last-child { border-bottom:0; }
+    .empty { text-align:center; color:var(--muted); padding:20px 4px; }
+    .measure-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .small { font-size:12px; color:var(--muted); }
+    .danger { color:#8f3844; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; }
+    .row > * { flex:1; }
+    .footer-note { color:var(--muted); font-size:12px; text-align:center; margin-top:22px; }
+    @media (max-width: 520px) {
+      .checkin,.measure-grid,.week-row { grid-template-columns:1fr; }
+      .stats { grid-template-columns:1fr 1fr 1fr; }
+      .shell { padding-left:12px; padding-right:12px; }
+      .hero { border-radius:22px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <h1>Project Phoenix</h1>
+      <p class="subtitle">Gentle movement. Stronger foundations. One checkmark at a time.</p>
+      <div class="week-row">
+        <div>
+          <label for="weekSelect">Program week</label>
+          <select id="weekSelect">
+            <option value="1">Week 1 · Rebuild</option>
+            <option value="2">Week 2 · Stability</option>
+            <option value="3">Week 3 · Strength</option>
+            <option value="4">Week 4 · Confidence</option>
+          </select>
+        </div>
+        <div>
+          <label for="modeSelect">Today’s mode</label>
+          <select id="modeSelect">
+            <option value="green">Green · 15 min</option>
+            <option value="blue" selected>Blue · 25–30 min</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <section id="today" class="view active">
+      <div class="card">
+        <div class="section-head"><h2>Knee check-in</h2><span class="pill">Before movement</span></div>
+        <div class="checkin">
+          <div class="field"><label>Pain: <span id="painValue" class="value">0</span>/10</label><input id="pain" type="range" min="0" max="10" value="0" /></div>
+          <div class="field"><label>Stiffness: <span id="stiffValue" class="value">0</span>/10</label><input id="stiffness" type="range" min="0" max="10" value="0" /></div>
+          <div class="field"><label for="swelling">Swelling</label><select id="swelling" class="plain"><option value="no">No</option><option value="yes">Yes</option></select></div>
+          <div class="field"><label for="energy">Energy</label><select id="energy" class="plain"><option>Low</option><option selected>Okay</option><option>Good</option></select></div>
+        </div>
+        <div id="kneeNotice" class="notice" hidden>Today may be better as a Green Day. Keep movements comfortable and stop if pain increases, the knee feels unstable, or swelling worsens.</div>
+      </div>
+
+      <div class="card">
+        <div class="section-head"><h2 id="workoutTitle">Blue Day</h2><span id="progressPill" class="pill">0% complete</span></div>
+        <div id="workoutList"></div>
+        <button id="completeWorkout" class="primary">Complete today’s workout</button>
+      </div>
+    </section>
+
+    <section id="program" class="view">
+      <div class="card">
+        <div class="section-head"><h2>Four-week path</h2><span class="pill">Slow is still forward</span></div>
+        <div class="history-item"><h3>Week 1 · Rebuild</h3><p class="small">Learn the movements, protect the knee, and finish feeling capable rather than depleted.</p></div>
+        <div class="history-item"><h3>Week 2 · Stability</h3><p class="small">Add dead bugs and heel raises while gradually increasing repetitions.</p></div>
+        <div class="history-item"><h3>Week 3 · Strength</h3><p class="small">Move to three sets on core exercises. Mini squats remain optional and pain-free only.</p></div>
+        <div class="history-item"><h3>Week 4 · Confidence</h3><p class="small">Use a simple circuit and celebrate the stronger movement pattern you have built.</p></div>
+      </div>
+      <div class="card"><h2>Safety compass</h2><p class="small">Persistent knee pain lasting eight weeks deserves evaluation by a clinician or physical therapist, especially with swelling, locking, giving way, worsening pain, or difficulty fully bending or straightening the knee.</p></div>
+    </section>
+
+    <section id="progress" class="view">
+      <div class="card">
+        <div class="section-head"><h2>Your progress</h2><button id="clearHistory" class="secondary danger">Clear</button></div>
+        <div class="stats">
+          <div class="stat"><strong id="totalWorkouts">0</strong><span class="small">Workouts</span></div>
+          <div class="stat"><strong id="totalMinutes">0</strong><span class="small">Minutes</span></div>
+          <div class="stat"><strong id="avgPain">–</strong><span class="small">Avg pain</span></div>
+        </div>
+        <div id="historyList" class="empty">Your completed workouts will appear here.</div>
+      </div>
+    </section>
+
+    <section id="measurements" class="view">
+      <div class="card">
+        <div class="section-head"><h2>Measurements</h2><span class="pill">Optional</span></div>
+        <div class="measure-grid">
+          <div class="field"><label>Waist</label><input id="waist" type="number" min="0" step="0.1" placeholder="inches" /></div>
+          <div class="field"><label>Lower belly</label><input id="belly" type="number" min="0" step="0.1" placeholder="inches" /></div>
+          <div class="field"><label>Left upper arm</label><input id="leftArm" type="number" min="0" step="0.1" placeholder="inches" /></div>
+          <div class="field"><label>Right upper arm</label><input id="rightArm" type="number" min="0" step="0.1" placeholder="inches" /></div>
+          <div class="field"><label>Optional weight</label><input id="weight" type="number" min="0" step="0.1" placeholder="pounds" /></div>
+          <div class="field"><label>Date</label><input id="measureDate" type="text" readonly /></div>
+        </div>
+        <div class="field" style="margin-top:12px"><label>Non-scale victory or note</label><textarea id="measureNote" placeholder="Example: stairs felt easier today."></textarea></div>
+        <button id="saveMeasurement" class="primary">Save measurement entry</button>
+      </div>
+      <div class="card">
+        <div class="section-head"><h2>Measurement history</h2><button id="clearMeasurements" class="secondary danger">Clear</button></div>
+        <div id="measurementList" class="empty">No measurement entries yet.</div>
+      </div>
+      <div class="card">
+        <h2>Backup</h2>
+        <p class="small">Your data stays in this browser. Export a backup before clearing browser data or switching devices.</p>
+        <div class="row"><button id="exportData" class="secondary">Export data</button><button id="importData" class="secondary">Import data</button></div>
+        <input id="importFile" type="file" accept="application/json" hidden />
+      </div>
+    </section>
+
+    <p class="footer-note">Project Phoenix stores information only in your browser. It is a personal tracker, not medical advice.</p>
+  </main>
+
+  <nav class="tabs" aria-label="Main navigation">
+    <button class="tab active" data-view="today">Today</button>
+    <button class="tab" data-view="program">Program</button>
+    <button class="tab" data-view="progress">Progress</button>
+    <button class="tab" data-view="measurements">Measures</button>
+  </nav>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => [...document.querySelectorAll(s)];
+const STORE = 'projectPhoenixDataV1';
+const defaultData = { week: 1, mode: 'blue', histories: [], measurements: [], checked: {} };
+let data;
+try { data = { ...defaultData, ...(JSON.parse(localStorage.getItem(STORE)) || {}) }; }
+catch { data = structuredClone(defaultData); }
+
+const exerciseSets = {
+  standingWarmup: [
+    ['March in place','2 min','Lift only as high as feels comfortable.'],
+    ['Shoulder rolls','20 reps','10 forward and 10 backward.'],
+    ['Hip circles','10 each way','Small, slow circles.'],
+    ['Leg swings · front/back','10 each leg','Hold a wall or chair.'],
+    ['Leg swings · side/side','10 each leg','Use a small comfortable range.'],
+    ['Ankle circles','10 each way','Both ankles.']
+  ],
+  standingStretch: [
+    ['Wall calf stretch · straight knee','45 sec each','Keep the back heel down.'],
+    ['Wall calf stretch · bent knee','45 sec each','Gently bend the back knee.'],
+    ['Standing hip-flexor stretch','45 sec each','Tuck the pelvis slightly; feel the front of the back hip.']
+  ],
+  floorStretch: [
+    ['Supine hamstring stretch','45–60 sec each','Use a towel or hold behind the thigh.'],
+    ['Figure-four stretch','45 sec each','Stretch the glute, not the knee.'],
+    ['Butterfly stretch','60 sec','Sit tall and allow knees to relax outward.'],
+    ["Child's pose",'60 sec','Keep the range comfortable for the knee.'],
+    ['Seated forward fold','60 sec','Keep knees softly bent.'],
+    ['Deep breathing','2 min','Slow inhale and longer exhale.']
+  ]
+};
+
+function strengthFor(week, mode) {
+  const plans = {
+    1: { standing:[['Sit-to-stand','2 × 8'],['Wall push-ups','2 × 10'],['Heel raises','2 × 10']], floor:[['Glute bridges','2 × 10'],['Clamshells','2 × 12 each'],['Bird dogs','2 × 8 each']] },
+    2: { standing:[['Sit-to-stand','2 × 10'],['Wall push-ups','2 × 15'],['Heel raises','2 × 15']], floor:[['Glute bridges','2 × 15'],['Clamshells','2 × 15 each'],['Bird dogs','2 × 10 each'],['Dead bugs','2 × 8 each']] },
+    3: { standing:[['Sit-to-stand','3 × 10'],['Wall push-ups','3 × 12'],['Heel raises','3 × 15'],['Mini squats · optional','2 × 10']], floor:[['Glute bridges','3 × 15'],['Clamshells','2 × 15 each'],['Bird dogs','3 × 10 each'],['Dead bugs','3 × 10 each']] },
+    4: { standing:[['Sit-to-stand','10 · 2–3 rounds'],['Wall push-ups','12 · 2–3 rounds'],['Heel raises','15 · 2–3 rounds']], floor:[['Glute bridges','15 · 2–3 rounds'],['Bird dogs','10 each · 2–3 rounds'],['Dead bugs','10 each · 2–3 rounds']] }
+  };
+  const p = plans[week];
+  if (mode === 'green') {
+    return { standing:p.standing.slice(0,3), floor:p.floor.slice(0,2) };
+  }
+  return p;
+}
+
+function makeExercise([name, amount, note='Move slowly and stay within a comfortable range.'], id) {
+  const checked = !!data.checked[id];
+  return `<label class="exercise ${checked?'done':''}"><input type="checkbox" data-exercise="${id}" ${checked?'checked':''}><div><div class="ex-name">${name}</div><div class="ex-note">${note}</div></div><div class="amount">${amount}</div></label>`;
+}
+function section(title, items, prefix) {
+  return `<div class="divider">${title}</div>${items.map((e,i)=>makeExercise(e,`${data.week}-${data.mode}-${prefix}-${i}`)).join('')}`;
+}
+function renderWorkout() {
+  const strength = strengthFor(Number(data.week), data.mode);
+  let html = section('Standing warm-up', exerciseSets.standingWarmup, 'warm');
+  html += section('Standing strength', strength.standing, 'stand');
+  html += section('Standing stretches', exerciseSets.standingStretch, 'standstretch');
+  html += `<div class="divider">Move to the floor once</div>`;
+  html += section('Floor strength', strength.floor, 'floor');
+  const floorStretches = data.mode === 'green' ? exerciseSets.floorStretch.slice(0,3).concat(exerciseSets.floorStretch.slice(-1)) : exerciseSets.floorStretch;
+  html += section('Floor stretches', floorStretches, 'floorstretch');
+  $('#workoutList').innerHTML = html;
+  $('#workoutTitle').textContent = `${data.mode === 'green' ? 'Green' : 'Blue'} Day · Week ${data.week}`;
+  $$('[data-exercise]').forEach(cb => cb.addEventListener('change', e => {
+    data.checked[e.target.dataset.exercise] = e.target.checked;
+    save(); renderWorkout();
+  }));
+  updateProgress();
+}
+function updateProgress() {
+  const boxes = $$('[data-exercise]');
+  const done = boxes.filter(x=>x.checked).length;
+  const pct = boxes.length ? Math.round(done/boxes.length*100) : 0;
+  $('#progressPill').textContent = `${pct}% complete`;
+}
+function save() { localStorage.setItem(STORE, JSON.stringify(data)); }
+function renderHistory() {
+  const h = data.histories;
+  $('#totalWorkouts').textContent = h.length;
+  $('#totalMinutes').textContent = h.reduce((a,x)=>a+x.minutes,0);
+  $('#avgPain').textContent = h.length ? (h.reduce((a,x)=>a+x.pain,0)/h.length).toFixed(1) : '–';
+  $('#historyList').className = h.length ? '' : 'empty';
+  $('#historyList').innerHTML = h.length ? h.slice().reverse().map(x=>`<div class="history-item"><strong>${x.date}</strong> · ${x.mode} Day · Week ${x.week}<div class="small">${x.minutes} min · Knee pain ${x.pain}/10 · Stiffness ${x.stiffness}/10${x.swelling==='yes'?' · swelling noted':''}</div></div>`).join('') : 'Your completed workouts will appear here.';
+}
+function renderMeasurements() {
+  const m = data.measurements;
+  $('#measurementList').className = m.length ? '' : 'empty';
+  $('#measurementList').innerHTML = m.length ? m.slice().reverse().map(x=>`<div class="history-item"><strong>${x.date}</strong><div class="small">${[['Waist',x.waist],['Lower belly',x.belly],['Left arm',x.leftArm],['Right arm',x.rightArm],['Weight',x.weight]].filter(y=>y[1]).map(y=>`${y[0]}: ${y[1]}`).join(' · ') || 'No numeric measurements'}</div>${x.note?`<p>${escapeHtml(x.note)}</p>`:''}</div>`).join('') : 'No measurement entries yet.';
+}
+function escapeHtml(s) { return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
+function kneeUpdate() {
+  $('#painValue').textContent = $('#pain').value;
+  $('#stiffValue').textContent = $('#stiffness').value;
+  const elevated = Number($('#pain').value) >= 4 || Number($('#stiffness').value) >= 6 || $('#swelling').value === 'yes';
+  $('#kneeNotice').hidden = !elevated;
+}
+
+$('#weekSelect').value = data.week;
+$('#modeSelect').value = data.mode;
+$('#weekSelect').addEventListener('change', e=>{ data.week=Number(e.target.value); data.checked={}; save(); renderWorkout(); });
+$('#modeSelect').addEventListener('change', e=>{ data.mode=e.target.value; data.checked={}; save(); renderWorkout(); });
+['pain','stiffness','swelling'].forEach(id=>$('#'+id).addEventListener('input',kneeUpdate));
+$$('.tab').forEach(btn=>btn.addEventListener('click',()=>{
+  $$('.tab').forEach(x=>x.classList.remove('active')); $$('.view').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active'); $('#'+btn.dataset.view).classList.add('active');
+  if(btn.dataset.view==='progress') renderHistory();
+  if(btn.dataset.view==='measurements') renderMeasurements();
+}));
+$('#completeWorkout').addEventListener('click',()=>{
+  const entry = { date:new Date().toLocaleDateString(), timestamp:Date.now(), week:Number(data.week), mode:data.mode==='green'?'Green':'Blue', minutes:data.mode==='green'?15:28, pain:Number($('#pain').value), stiffness:Number($('#stiffness').value), swelling:$('#swelling').value };
+  data.histories.push(entry); data.checked={}; save(); renderWorkout(); renderHistory();
+  alert('Workout saved. The phoenix gets another feather.');
+});
+$('#clearHistory').addEventListener('click',()=>{ if(confirm('Clear all workout history?')) { data.histories=[]; save(); renderHistory(); }});
+$('#measureDate').value = new Date().toLocaleDateString();
+$('#saveMeasurement').addEventListener('click',()=>{
+  const entry={ date:new Date().toLocaleDateString(), timestamp:Date.now(), waist:$('#waist').value, belly:$('#belly').value, leftArm:$('#leftArm').value, rightArm:$('#rightArm').value, weight:$('#weight').value, note:$('#measureNote').value.trim() };
+  data.measurements.push(entry); save(); renderMeasurements();
+  ['waist','belly','leftArm','rightArm','weight','measureNote'].forEach(id=>$('#'+id).value='');
+  alert('Measurement entry saved.');
+});
+$('#clearMeasurements').addEventListener('click',()=>{ if(confirm('Clear all measurement entries?')) { data.measurements=[]; save(); renderMeasurements(); }});
+$('#exportData').addEventListener('click',()=>{
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='project-phoenix-backup.json'; a.click(); URL.revokeObjectURL(url);
+});
+$('#importData').addEventListener('click',()=>$('#importFile').click());
+$('#importFile').addEventListener('change',async e=>{
+  const file=e.target.files[0]; if(!file) return;
+  try { data={...defaultData,...JSON.parse(await file.text())}; save(); location.reload(); }
+  catch { alert('That backup file could not be read.'); }
+});
+
+kneeUpdate(); renderWorkout(); renderHistory(); renderMeasurements();
+</script>
+</body>
 </html>
