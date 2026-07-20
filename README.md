@@ -18,10 +18,6 @@
 
 Project Phoenix began as a personal challenge.
 
-After losing more than **90 pounds**, I realized the hardest part wasn't losing weight.
-
-It was learning how to rebuild.
-
 Rebuilding confidence.
 Rebuilding strength.
 Rebuilding consistency.
@@ -30,7 +26,6 @@ Rebuilding the relationship with my own body.
 Most fitness apps celebrate perfection.
 
 Project Phoenix celebrates showing up.
-
 ---
 
 # Philosophy
