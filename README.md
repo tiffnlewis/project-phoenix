@@ -2,6 +2,8 @@
 
 # Project Phoenix
 
+https://tiffnlewis.github.io/project-phoenix/
+
 ### Rebuilding strength, one intentional step at a time.
 
 *A mobile-first wellness companion focused on movement, confidence, and sustainable progress.*
@@ -26,6 +28,7 @@ Rebuilding the relationship with my own body.
 Most fitness apps celebrate perfection.
 
 Project Phoenix celebrates showing up.
+
 ---
 
 # Philosophy
@@ -172,13 +175,6 @@ Project Phoenix is currently a personal passion project.
 
 Ideas, suggestions, accessibility improvements, and wellness discussions are always welcome.
 
----
-
-# License
-
-Released under the MIT License.
-
----
 
 <div align="center">
 
