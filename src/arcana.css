@@ -1,0 +1,258 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap");
+
+:root {
+  font-family: "Inter", sans-serif;
+  color: #2b241c;
+  background: #d9c9ab;
+
+  --parchment: #f5efe2;
+  --aged-ivory: #ede2cc;
+  --ink: #2b241c;
+  --muted-ink: #6d6254;
+  --antique-gold: #b58b2a;
+  --dark-gold: #80601b;
+  --burgundy: #7b2d3a;
+  --forest: #566648;
+  --blue-steel: #495c73;
+
+  --content-width: 480px;
+  --page-padding: 18px;
+  --navigation-height: 78px;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: #d9c9ab;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(255, 255, 255, 0.3),
+      transparent 42%
+    ),
+    linear-gradient(135deg, #d7c5a5, #c8b28d);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.arcana-app {
+  min-height: 100vh;
+  padding: 12px;
+}
+
+.arcana-page {
+  position: relative;
+  width: 100%;
+  max-width: var(--content-width);
+  min-height: calc(100vh - 24px);
+  margin: 0 auto;
+  overflow: hidden;
+
+  background:
+    linear-gradient(rgba(245, 239, 226, 0.93), rgba(245, 239, 226, 0.93)),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(91, 67, 34, 0.025) 4px
+    );
+
+  border: 2px solid var(--dark-gold);
+  box-shadow:
+    0 16px 50px rgba(43, 36, 28, 0.28),
+    inset 0 0 34px rgba(128, 96, 27, 0.1);
+}
+
+.arcana-page::before,
+.arcana-page::after {
+  position: absolute;
+  z-index: 0;
+  width: 72px;
+  height: 72px;
+  pointer-events: none;
+  content: "";
+  border-color: var(--antique-gold);
+}
+
+.arcana-page::before {
+  top: 8px;
+  left: 8px;
+  border-top: 3px double var(--antique-gold);
+  border-left: 3px double var(--antique-gold);
+  border-top-left-radius: 34px;
+}
+
+.arcana-page::after {
+  right: 8px;
+  bottom: 8px;
+  border-right: 3px double var(--antique-gold);
+  border-bottom: 3px double var(--antique-gold);
+  border-bottom-right-radius: 34px;
+}
+
+.arcana-inner-border {
+  position: absolute;
+  inset: 14px;
+  z-index: 0;
+  pointer-events: none;
+  border: 1px solid rgba(181, 139, 42, 0.72);
+}
+
+.arcana-inner-border::before,
+.arcana-inner-border::after {
+  position: absolute;
+  left: 50%;
+  color: var(--dark-gold);
+  font-size: 20px;
+  line-height: 1;
+  transform: translateX(-50%);
+  content: "✦";
+}
+
+.arcana-inner-border::before {
+  top: -11px;
+  padding: 0 10px;
+  background: var(--parchment);
+}
+
+.arcana-inner-border::after {
+  bottom: -11px;
+  padding: 0 10px;
+  background: var(--parchment);
+}
+
+.arcana-header {
+  position: relative;
+  z-index: 1;
+  padding: 38px 28px 22px;
+  text-align: center;
+}
+
+.arcana-eyebrow {
+  margin: 0 0 6px;
+  color: var(--dark-gold);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.arcana-title {
+  margin: 0;
+  color: var(--ink);
+  font-family: "Cinzel Decorative", serif;
+  font-size: clamp(1.55rem, 6vw, 2.2rem);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.arcana-subtitle {
+  max-width: 330px;
+  margin: 12px auto 0;
+  color: var(--muted-ink);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.08rem;
+  font-style: italic;
+  line-height: 1.45;
+}
+
+.arcana-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: min(280px, 80%);
+  margin: 20px auto 0;
+  color: var(--antique-gold);
+}
+
+.arcana-divider::before,
+.arcana-divider::after {
+  flex: 1;
+  height: 1px;
+  content: "";
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--antique-gold),
+    transparent
+  );
+}
+
+.arcana-content {
+  position: relative;
+  z-index: 1;
+  padding: 8px var(--page-padding)
+    calc(var(--navigation-height) + 26px);
+}
+
+.arcana-card {
+  padding: 20px;
+  background: rgba(237, 226, 204, 0.72);
+  border: 1px solid var(--antique-gold);
+  box-shadow:
+    inset 0 0 0 4px rgba(245, 239, 226, 0.75),
+    0 6px 18px rgba(43, 36, 28, 0.09);
+}
+
+.arcana-card-title {
+  margin: 0 0 10px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+}
+
+.arcana-card p {
+  margin: 0;
+  line-height: 1.65;
+}
+
+@media (min-width: 600px) {
+  .arcana-app {
+    padding: 24px;
+  }
+
+  .arcana-page {
+    min-height: calc(100vh - 48px);
+  }
+
+  .arcana-content {
+    --page-padding: 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
