@@ -256,3 +256,173 @@ button {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* =========================================================
+   Phoenix Arcana title page
+   ========================================================= */
+
+.title-page {
+  display: grid;
+  min-height: 100vh;
+  padding: 0;
+  place-items: center;
+  background:
+    radial-gradient(circle at center, #e8d7b7, #98815e 130%);
+}
+
+.title-cover {
+  position: relative;
+  width: min(100vw, 768px);
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background: var(--parchment);
+  box-shadow:
+    0 24px 70px rgba(43, 36, 28, 0.48),
+    0 0 0 1px rgba(43, 36, 28, 0.45);
+}
+
+.title-cover-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+}
+
+.title-hotspot {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.title-hotspot:hover,
+.title-hotspot:focus-visible {
+  background: rgba(255, 224, 137, 0.16);
+  border-color: rgba(255, 219, 111, 0.86);
+  box-shadow:
+    0 0 0 4px rgba(123, 45, 58, 0.35),
+    0 0 28px rgba(181, 139, 42, 0.82);
+  outline: none;
+  transform: scale(1.035);
+}
+
+.hotspot-phoenix {
+  top: 5%;
+  left: 27%;
+  width: 46%;
+  height: 31%;
+}
+
+.hotspot-sun {
+  top: 1.2%;
+  left: 1.5%;
+  width: 18%;
+  height: 13%;
+}
+
+.hotspot-moon {
+  top: 1.2%;
+  right: 1.5%;
+  width: 18%;
+  height: 13%;
+}
+
+.hotspot-compass {
+  bottom: 1.2%;
+  left: 1.4%;
+  width: 20%;
+  height: 14%;
+}
+
+.hotspot-tree {
+  right: 1.4%;
+  bottom: 1.2%;
+  width: 20%;
+  height: 14%;
+}
+
+.hotspot-reading {
+  left: 25%;
+  bottom: 10.4%;
+  width: 50%;
+  height: 7.2%;
+  border-radius: 999px;
+}
+
+.hotspot-seal {
+  left: 42%;
+  bottom: 0.7%;
+  width: 16%;
+  height: 10.5%;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.placeholder-card {
+  display: grid;
+  min-height: 260px;
+  text-align: center;
+  place-items: center;
+}
+
+.arcana-link-button {
+  display: inline-flex;
+  min-height: 48px;
+  margin-top: 24px;
+  padding: 12px 22px;
+  align-items: center;
+  justify-content: center;
+  color: var(--parchment);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  background: var(--forest);
+  border: 2px solid var(--antique-gold);
+  box-shadow:
+    inset 0 0 0 2px rgba(245, 239, 226, 0.18),
+    0 5px 12px rgba(43, 36, 28, 0.18);
+}
+
+.arcana-link-button:hover,
+.arcana-link-button:focus-visible {
+  background: var(--burgundy);
+  outline: 3px solid rgba(181, 139, 42, 0.35);
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .title-page {
+    align-items: start;
+  }
+
+  .title-cover {
+    width: 100%;
+    min-height: 100svh;
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title-hotspot {
+    transition: none;
+  }
+}
